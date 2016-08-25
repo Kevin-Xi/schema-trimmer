@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+
+# Project Files
+.idea
+.tern-project
+.vscode
+
+# Node
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*

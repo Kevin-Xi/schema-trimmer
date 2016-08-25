@@ -1,0 +1,25 @@
+{
+  "name": "schema-trimmer",
+  "version": "1.0.0",
+  "description": "A tool to validate and cast values in Javascript by given schema, with customizable predictors and castors.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kevin-Xi/schema-trimmer.git"
+  },
+  "keywords": [
+    "schema",
+    "validate",
+    "cast",
+    "predicate"
+  ],
+  "author": "Kevin Xi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kevin-Xi/schema-trimmer/issues"
+  },
+  "homepage": "https://github.com/Kevin-Xi/schema-trimmer#readme"
+}
