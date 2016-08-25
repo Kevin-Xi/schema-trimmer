@@ -16,7 +16,7 @@
     "cast",
     "predicate"
   ],
-  "author": "Kevin Xi",
+  "author": "Kevin Xi <kevin.xgr@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Kevin-Xi/schema-trimmer/issues"
