@@ -1,6 +1,6 @@
 {
   "name": "schema-trimmer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A tool to validate and cast values in Javascript by given schema, with customizable predictors and castors.",
   "main": "index.js",
   "scripts": {
