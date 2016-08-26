@@ -7,11 +7,13 @@ let predefined_patterns = {
     }
 };
 
-let custom_patterns = {};
+let patterns = Object.assign({}, predefined_patterns);
 
-let patterns = Object.assign({}, predefined_patterns, custom_patterns);
+function init (custom_patterns) {
+    return Object.assign(patterns, custom_patterns);
+}
 
-function trimmer (pattern, value) {
+function process (pattern, value) {
     let token = get_next_token(pattern);
     switch (token) {
         case '{':
@@ -20,7 +22,7 @@ function trimmer (pattern, value) {
                 if (ps.length === 0) {
                     return { m: true, v: vs };
                 } else {
-                    let res = trimmer(ps[0], vs);
+                    let res = process(ps[0], vs);
                     if (res.m) {
                         return trim_all(ps.slice(1), Object.assign({}, vs, res.v));
                     } else {
@@ -37,7 +39,7 @@ function trimmer (pattern, value) {
             })(pattern);
             let name = pair[0], p = pair[1], v = value[name];
 
-            let res = trimmer(p, v);
+            let res = process(p, v);
             if (res.m) {
                 let sup_v = {};
                 sup_v[name] = res.v;
@@ -50,7 +52,7 @@ function trimmer (pattern, value) {
             if (undefined === value) {
                 return { m: false, r: 'miss' };
             } else {
-                return trimmer(pattern.slice(1), value);
+                return process(pattern.slice(1), value);
             }
             break;
         default:
@@ -62,10 +64,10 @@ function trimmer (pattern, value) {
                     if (pred(value_after_cast)) {
                         return { m: true, v: value_after_cast };
                     } else {
-                        return { m: false, r: `${value} not ${token}}` };
+                        return { m: false, r: `${JSON.stringify(value)} not ${token}}` };
                     }
                 } catch (e) {
-                    return { m: false, r: `${value} fail cast ${token}}` };
+                    return { m: false, r: `${JSON.stringify(value)} fail cast ${token}}` };
                 }
             } else {
                 return { m: false, r: 'pattern not recognize' };
@@ -126,4 +128,7 @@ function id (x) {
     return x;
 }
 
-module.exports = trimmer;
+module.exports = {
+    init: init,
+    process: process
+};
