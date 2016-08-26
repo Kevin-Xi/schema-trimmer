@@ -1,7 +1,19 @@
 'use strict';
 
+let predefined_patterns = {
+    Number: {
+        predicate: (n) => { return !Number.isNaN(n); },
+        cast: (n) => { return Number(n); }
+    }
+};
+
+let custom_patterns = {};
+
+let patterns = Object.assign({}, predefined_patterns, custom_patterns);
+
 function trimmer (pattern, value) {
-    switch (get_next_token(pattern)) {
+    let token = get_next_token(pattern);
+    switch (token) {
         case '{':
             let sub_patterns = get_sub_patterns(pattern);
             let trim_all = (ps, vs) => {
@@ -41,16 +53,23 @@ function trimmer (pattern, value) {
                 return trimmer(pattern.slice(1), value);
             }
             break;
-        case 'Number':
-            let num_value = Number(value);
-            if (Number.isNaN(num_value)) {
-                return { m: false, r: `${value} NaN` };
-            } else {
-                return { m: true, v: num_value };
-            }
-            break;
         default:
-            return { m: false, r: 'pattern not recognize' };
+            if (patterns[token]) {
+                let pred = patterns[token]['predicate'];
+                let cast = patterns[token]['cast'] || id;
+                try {
+                    let value_after_cast = cast(value);
+                    if (pred(value_after_cast)) {
+                        return { m: true, v: value_after_cast };
+                    } else {
+                        return { m: false, r: `${value} not ${token}}` };
+                    }
+                } catch (e) {
+                    return { m: false, r: `${value} fail cast ${token}}` };
+                }
+            } else {
+                return { m: false, r: 'pattern not recognize' };
+            }
             break;
     }
 }
@@ -101,6 +120,10 @@ function get_next_token (pattern) {
         }
     }
     return token;
+}
+
+function id (x) {
+    return x;
 }
 
 module.exports = trimmer;
