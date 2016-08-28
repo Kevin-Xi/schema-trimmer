@@ -64,10 +64,10 @@ function process (pattern, value) {
                     if (pred(value_after_cast)) {
                         return { m: true, v: value_after_cast };
                     } else {
-                        return { m: false, r: `${JSON.stringify(value)} not ${token}}` };
+                        return { m: false, r: `${JSON.stringify(value)} not ${token}` };
                     }
                 } catch (e) {
-                    return { m: false, r: `${JSON.stringify(value)} fail cast ${token}}` };
+                    return { m: false, r: `${JSON.stringify(value)} fail cast ${token}` };
                 }
             } else {
                 return { m: false, r: 'pattern not recognize' };
